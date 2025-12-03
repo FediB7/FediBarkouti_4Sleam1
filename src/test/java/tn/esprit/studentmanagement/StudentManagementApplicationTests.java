@@ -10,5 +10,10 @@ class StudentManagementApplicationTests {
     void contextLoads() {
       assertTrue(true);
     }
+    @Test
+    void testAddition() {
+        int result = 2 + 3;
+        assertEquals(5, result);
+    }
 
 }
