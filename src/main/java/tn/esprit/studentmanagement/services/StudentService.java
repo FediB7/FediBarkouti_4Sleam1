@@ -9,6 +9,7 @@ import tn.esprit.studentmanagement.repositories.StudentRepository;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class StudentService implements IStudentService {
     @Autowired
     private StudentRepository studentRepository;
