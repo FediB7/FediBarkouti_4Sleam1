@@ -8,6 +8,7 @@ import tn.esprit.studentmanagement.entities.Enrollment;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class EnrollmentService implements IEnrollment {
     @Autowired
     EnrollmentRepository enrollmentRepository;
