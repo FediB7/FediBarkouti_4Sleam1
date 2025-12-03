@@ -1,36 +1,69 @@
-package tn.esprit.studentmanagement.controllers;
+package tn.esprit.studentmanagement.services;
 
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import tn.esprit.studentmanagement.entities.Department;
-import tn.esprit.studentmanagement.entities.Enrollment;
-import tn.esprit.studentmanagement.services.DepartmentService;
-import tn.esprit.studentmanagement.services.IDepartmentService;
+import tn.esprit.studentmanagement.repositories.DepartmentRepository;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
-@RequestMapping("/Depatment")
-@CrossOrigin(origins = "http://localhost:4200")
-@AllArgsConstructor
-public class DepartmentController {
-    private IDepartmentService departmentService;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-    @GetMapping("/getAllDepartment")
-    public List<Department> getAllDepartment() { return departmentService.getAllDepartments(); }
+public class DepartmentServiceTest {
 
-    @GetMapping("/getDepartment/{id}")
-    public Department getDepartment(@PathVariable Long id) { return departmentService.getDepartmentById(id); }
+    @Mock
+    private DepartmentRepository departmentRepository;
 
-    @PostMapping("/createDepartment")
-    public Department createDepartment(@RequestBody Department department) { return departmentService.saveDepartment(department); }
+    @InjectMocks
+    private DepartmentService departmentService;
 
-    @PutMapping("/updateDepartment")
-    public Department updateDepartment(@RequestBody Department department) {
-        return departmentService.saveDepartment(department);
+    public DepartmentServiceTest() {
+        MockitoAnnotations.openMocks(this);
     }
 
-    @DeleteMapping("/deleteDepartment/{id}")
-    public void deleteDepartment(@PathVariable Long id) {
-      departmentService.deleteDepartment(id); }
+    @Test
+    void testGetAllDepartments() {
+        when(departmentRepository.findAll())
+                .thenReturn(Arrays.asList(new Department(), new Department()));
+
+        List<Department> departments = departmentService.getAllDepartments();
+
+        assertEquals(2, departments.size());
+    }
+
+    @Test
+    void testGetDepartmentById() {
+        Department dep = new Department();
+        dep.setId(1L);
+
+        when(departmentRepository.findById(1L)).thenReturn(Optional.of(dep));
+
+        Department result = departmentService.getDepartmentById(1L);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+    }
+
+    @Test
+    void testSaveDepartment() {
+        Department dep = new Department();
+        dep.setName("INFO");
+
+        when(departmentRepository.save(dep)).thenReturn(dep);
+
+        Department result = departmentService.saveDepartment(dep);
+
+        assertEquals("INFO", result.getName());
+    }
+
+    @Test
+    void testDeleteDepartment() {
+        departmentService.deleteDepartment(1L);
+        verify(departmentRepository, times(1)).deleteById(1L);
+    }
 }
