@@ -25,4 +25,9 @@ public class DepartmentController {
     @DeleteMapping("/deleteDepartment/{id}")
     public void deleteDepartment(@PathVariable Long id) {
       departmentService.deleteDepartment(id); }
+    @Test
+    public void testAddition() {
+    int result = service.add(2, 3);
+    assertEquals(5, result);
+}
 } 
