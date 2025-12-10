@@ -14,25 +14,17 @@ spec:
         app: sonarqube
     spec:
       containers:
-      - name: sonarqube
-        image: sonarqube:lts
-        ports:
-        - containerPort: 9000
-        env:
-        - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
-          value: "true"
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sonarqube-service
-  namespace: devops
-spec:
-  type: NodePort
-  selector:
-    app: sonarqube
-  ports:
-  - port: 9000
-    targetPort: 9000
-    nodePort: 30090
+        - name: sonarqube
+          image: sonarqube:lts
+          ports:
+            - containerPort: 9000
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
+              value: "true"   # nécessaire pour minikube
