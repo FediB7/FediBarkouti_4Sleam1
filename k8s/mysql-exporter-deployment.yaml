@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
       - name: mysql-exporter
-        image: prom/mysqld-exporter:latest
+        image: prom/mysqld-exporter:v0.18.0
         ports:
         - containerPort: 9104
         env:
         - name: DATA_SOURCE_NAME
-          value: "root:root@(mysql-service:3306)/"
+          value: "root:root@(mysql-service.devops.svc.cluster.local:3306)/"
 ---
 apiVersion: v1
 kind: Service
