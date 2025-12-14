@@ -18,9 +18,9 @@ spec:
         image: prom/mysqld-exporter:v0.18.0
         ports:
         - containerPort: 9104
-      env:
-      - name: DATA_SOURCE_NAME
-      value: "exporter:exporter_password@(mysql-service.devops.svc.cluster.local:3306)/"
+        env:
+        - name: DATA_SOURCE_NAME
+          value: "exporter:exporter_password@(mysql-service.devops.svc.cluster.local:3306)/"
 
 ---
 apiVersion: v1
