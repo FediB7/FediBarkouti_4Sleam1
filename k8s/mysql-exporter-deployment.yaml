@@ -20,7 +20,10 @@ spec:
         - containerPort: 9104
         env:
         - name: DATA_SOURCE_NAME
-          value: "exporter:exporter_password@(mysql-service.devops.svc.cluster.local:3306)/"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-exporter-secret
+              key: DATA_SOURCE_NAME
 
 ---
 apiVersion: v1
